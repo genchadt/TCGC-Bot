@@ -1,0 +1,25 @@
+{
+    "purgeChannels": [
+      {
+        "guildId": "your_guild_id_1",
+        "channels": [
+          {
+            "id": "channel_id_1",
+            "name": "channel-name-1",
+            "retentionHours": 6
+          }
+        ]
+      },
+      {
+        "guildId": "your_guild_id_2",
+        "channels": [
+          {
+            "id": "channel_id_2",
+            "name": "channel-name-2",
+            "retentionHours": 6
+          }
+        ]
+      }
+    ]
+  }
+  
