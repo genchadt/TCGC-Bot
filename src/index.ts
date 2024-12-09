@@ -1,9 +1,16 @@
-import { Client, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Events, GatewayIntentBits, Collection } from 'discord.js';
 import dotenv from 'dotenv';
 import { logger } from './utils/logger';
-import { registerCommands } from './commands';
+import { registerCommands, getCommandsCollection } from './commands';
+import { Command } from './types';
 
 dotenv.config();
+
+declare module 'discord.js' {
+  export interface Client {
+    commands: Collection<string, Command>;
+  }
+}
 
 const client = new Client({
   intents: [
@@ -12,8 +19,20 @@ const client = new Client({
   ],
 });
 
-client.once(Events.ClientReady, (c) => {
+// Initialize commands collection
+client.commands = getCommandsCollection();
+
+client.once(Events.ClientReady, async (c) => {
   logger.info(`Ready! Logged in as ${c.user.tag}`);
+
+  // Register slash commands
+  const guildIds = process.env.GUILD_IDS?.split(',') || [];
+  if (!process.env.CLIENT_ID) {
+    logger.error('CLIENT_ID not found in environment variables');
+    return;
+  }
+
+  await registerCommands(process.env.CLIENT_ID, guildIds);
 });
 
 // Handle slash commands
@@ -21,7 +40,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   try {
-    const command = interaction.client.commands.get(interaction.commandName);
+    const command = client.commands.get(interaction.commandName);
     if (!command) return;
 
     await command.execute(interaction);

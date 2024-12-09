@@ -1,25 +1,27 @@
 import { 
-    SlashCommandBuilder, 
-    ChatInputCommandInteraction, 
-    PermissionFlagsBits,
-    TextChannel
-  } from 'discord.js';
-  import { MessageService } from '../services/messageService';
-  import { Command } from '../types';
-  import { logger } from '../utils/logger';
-  import config from '../config/channels.json';
-  
-  export const purgeCommand: Command = {
-    data: new SlashCommandBuilder()
+  SlashCommandBuilder, 
+  ChatInputCommandInteraction, 
+  PermissionFlagsBits,
+  TextChannel,
+  ChannelType
+} from 'discord.js';
+import { MessageService } from '../services/messageService';
+import { Command } from '../types';
+import { logger } from '../utils/logger';
+import config from '../config/channels.json';
+
+export const purgeCommand: Command = {
+  data: new SlashCommandBuilder()
       .setName('purge')
       .setDescription('Purge messages from configured channels')
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
       .addChannelOption(option =>
-        option
-          .setName('channel')
-          .setDescription('Channel to purge (optional, defaults to all configured channels)')
-          .setRequired(false)
-      ),
+          option
+              .setName('channel')
+              .setDescription('Channel to purge (optional, defaults to all configured channels)')
+              .addChannelTypes(ChannelType.GuildText)
+              .setRequired(false)
+      ) as SlashCommandBuilder,
   
     async execute(interaction: ChatInputCommandInteraction) {
       await interaction.deferReply({ ephemeral: true });
