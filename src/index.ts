@@ -3,36 +3,41 @@ import dotenv from 'dotenv';
 import { logger } from './utils/logger';
 import { registerCommands, getCommandsCollection } from './commands';
 import { Command } from './types';
+import { AutoPurgeService } from './services/autoPurgeService';
 
 dotenv.config();
 
 declare module 'discord.js' {
-  export interface Client {
-    commands: Collection<string, Command>;
-  }
+    export interface Client {
+        commands: Collection<string, Command>;
+    }
 }
 
 const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-  ],
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+    ],
 });
 
 // Initialize commands collection
 client.commands = getCommandsCollection();
 
 client.once(Events.ClientReady, async (c) => {
-  logger.info(`Ready! Logged in as ${c.user.tag}`);
+    logger.info(`Ready! Logged in as ${c.user.tag}`);
 
-  // Register slash commands
-  const guildIds = process.env.GUILD_IDS?.split(',') || [];
-  if (!process.env.CLIENT_ID) {
-    logger.error('CLIENT_ID not found in environment variables');
-    return;
-  }
+    // Start auto-purge service
+    const autoPurgeService = AutoPurgeService.getInstance(client);
+    autoPurgeService.start();
 
-  await registerCommands(process.env.CLIENT_ID, guildIds);
+    // Register slash commands
+    const guildIds = process.env.GUILD_IDS?.split(',') || [];
+    if (!process.env.CLIENT_ID) {
+        logger.error('CLIENT_ID not found in environment variables');
+        return;
+    }
+
+    await registerCommands(process.env.CLIENT_ID, guildIds);
 });
 
 // Handle slash commands

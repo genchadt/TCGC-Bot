@@ -1,25 +1,49 @@
 {
-    "purgeChannels": [
-      {
-        "guildId": "your_guild_id_1",
-        "channels": [
-          {
-            "id": "channel_id_1",
-            "name": "channel-name-1",
-            "retentionHours": 6
+  "purgeChannels": [
+    {
+      "guildId": "111111111111111111",
+      "enabled": true,
+      "channels": [
+        {
+          "id": "222222222222222222",
+          "name": "general-chat",
+          "enabled": true,
+          "filters": {
+            "retentionHours": 6,
+            "skipPinned": true,
+            "includeBots": false,
+            "includeFiles": true,
+            "includeImages": true,
+            "includeEmbeds": true,
+            "minReactions": 5,
+            "skipStarred": true,
+            "excludeUsers": ["333333333333333333"],
+            "excludeRoles": ["444444444444444444"],
+            "excludeKeywords": ["#save", "#keep"],
+            "includeKeywords": ["temp", "delete-me"]
+          },
+          "schedule": {
+            "timezone": "America/New_York",
+            "activeHours": {
+              "start": 1,
+              "end": 5
+            },
+            "checkIntervalMinutes": 10
           }
-        ]
-      },
-      {
-        "guildId": "your_guild_id_2",
-        "channels": [
-          {
-            "id": "channel_id_2",
-            "name": "channel-name-2",
-            "retentionHours": 6
+        },
+        {
+          "id": "555555555555555555",
+          "name": "bot-commands",
+          "enabled": true,
+          "filters": {
+            "retentionHours": 1,
+            "skipPinned": false,
+            "includeBots": true,
+            "includeFiles": false,
+            "minReactions": 0
           }
-        ]
-      }
-    ]
-  }
-  
+        }
+      ]
+    }
+  ]
+}
