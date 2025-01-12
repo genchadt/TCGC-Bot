@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, PermissionsBitField } from "discord.js";
 import { Command } from "../types";
 import { startGameServer, stopGameServer } from "../services/gameserver.service";
 import { logger } from "../utils/logger";
@@ -7,7 +7,7 @@ const GameServerCommand: Command = {
     name: "gameserver",
     description: "Manages the game server.",
     execute: async (message: Message, args: string[]) => {
-        if (!message.member || !message.member.permissions.has("ADMINISTRATOR")) {
+        if (!message.member || !message.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
             await message.reply("You don't have permission to use this command.");
             return
         }
