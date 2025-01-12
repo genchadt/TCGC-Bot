@@ -34,7 +34,10 @@ const startBot = async (): Promise<void> => {
 
 startBot();
 
-process.on("SIGINT", async () => {
+/**
+ * Shut down the bot cleanly.
+ */
+const shutdownBot = async () => {
     try {
         logger.info("Shutting down bot...");
         await client.destroy();
@@ -43,15 +46,7 @@ process.on("SIGINT", async () => {
         logger.error("Error during shutdown:", error);
         process.exit(1);
     }
-});
+};
 
-process.on("SIGTERM", async () => {
-    try {
-        logger.info("Shutting down bot...");
-        await client.destroy();
-        process.exit(0);
-    } catch (error) {
-        logger.error("Error during shutdown:", error);
-        process.exit(1);
-    }
-});
+process.on("SIGINT", shutdownBot);
+process.on("SIGTERM", shutdownBot);
