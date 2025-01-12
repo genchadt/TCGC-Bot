@@ -7,6 +7,9 @@ import registerCommands from "./utils/commandLoader";
 import registerEvents from "./utils/eventLoader";
 import { startPurgeTimers } from "./services/purge.service";
 
+/**
+ * Creates a new Discord bot client.
+ */
 const client = new Client({
     intents: [
         IntentsBitField.Flags.Guilds,
@@ -15,6 +18,9 @@ const client = new Client({
     ],
 });
 
+/**
+ * Starts the bot and sets up all necessary services.
+ */
 const startBot = async (): Promise<void> => {
     try {
         await connectToDatabase();
