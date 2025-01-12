@@ -5,7 +5,9 @@ import { gameServerConfigs } from "../config/gameserver.config";
 
 /**
  * Starts a game server (daemon or Docker).
+ * 
  * @param serverName - The name of the game server to start.
+ * @returns {Promise<void>} A promise that resolves when the server has started.
  */
 export const startGameServer = async (serverName: string): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -31,7 +33,9 @@ export const startGameServer = async (serverName: string): Promise<void> => {
 
 /**
  * Stops a game server (daemon or Docker).
+ * 
  * @param serverName - The name of the game server to stop.
+ * @returns {Promise<void>} A promise that resolves when the server has stopped.
  */
 export const stopGameServer = async (serverName: string): Promise<void> => {
     return new Promise((resolve, reject) => {
