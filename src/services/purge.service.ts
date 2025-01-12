@@ -1,7 +1,7 @@
 // src/services/purge.service.ts
 import { Guild, TextChannel, Message } from "discord.js";
 import { purgeConfig } from "../config/purge.config";
-import { isWithinMessageAge } from "../utils/discord.utils";
+import { isWithinMessageAge } from "../utils/discord";
 import { logger } from "../utils/logger";
 
 export const purgeMessages = async (guild: Guild): Promise<void> => {
@@ -33,6 +33,8 @@ export const purgeMessages = async (guild: Guild): Promise<void> => {
 };
 
 const filterMessages = (message: Message, rule: any): boolean => {
+    if (!message.member) return false; // Skip messages from users not in the guild
+
     const includeUser = rule.includeUserGroups.length === 0 ||
         message.member.roles.cache.some((role) =>
             rule.includeUserGroups.includes(role.id)

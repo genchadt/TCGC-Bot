@@ -5,5 +5,5 @@ export const isWithinMessageAge = (message: Message, maxAgeSeconds: number): boo
     const now = Date.now();
     const messageTimestamp = message.createdTimestamp;
     const messageAgeSeconds = (now - messageTimestamp) / 1000;
-    return messageAgeSeconds > maxAgeSeconds;
+    return messageAgeSeconds >= maxAgeSeconds; 
 };

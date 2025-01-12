@@ -5,8 +5,12 @@ import { logger } from "../utils/logger";
 
 const PurgeCommand: Command = {
     name: "purge",
-    description: "Purges messages based on configured criteria.",
+    description: "Purges messages based on configured criteria. Usage: !purge",
     execute: async (message: Message, args: string[]) => {
+        if (!message.member || !message.member.permissions.has("ADMINISTRATOR")) {
+            return message.reply("You don't have permission to use this command.");
+        }
+
         try {
             await purgeMessages(message.guild);
             await message.reply("Messages purged successfully!");

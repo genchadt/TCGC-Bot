@@ -28,6 +28,7 @@ const startBot = async (): Promise<void> => {
         logger.info("Bot is ready!");
     } catch (error) {
         logger.error("Error starting bot:", error);
+        process.exit(1); // Exit with a failure code
     }
 };
 
