@@ -8,7 +8,8 @@ const GameServerCommand: Command = {
     description: "Manages the game server.",
     execute: async (message: Message, args: string[]) => {
         if (!message.member || !message.member.permissions.has("ADMINISTRATOR")) {
-            return message.reply("You don't have permission to use this command.");
+            await message.reply("You don't have permission to use this command.");
+            return
         }
 
         const action = args[0]; // e.g., "start", "stop"
