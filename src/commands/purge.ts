@@ -22,8 +22,12 @@ const PurgeCommand: Command = {
         }
 
         try {
-            await purgeMessages(message.guild);
-            await message.reply("Messages purged successfully!");
+            const deletedCount = await purgeMessages(message.guild);
+            if (deletedCount === 0) {
+                await message.reply("No messages matched the purge criteria.");
+            } else {
+                await message.reply(`Successfully purged ${deletedCount} message${deletedCount === 1 ? '' : 's'}!`);
+            }
         } catch (error) {
             logger.error("Error during purge:", error);
             await message.reply("An error occurred while purging messages.");

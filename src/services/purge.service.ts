@@ -4,7 +4,9 @@ import { purgeConfig } from "../config/purge.config";
 import { isWithinMessageAge } from "../utils/discord";
 import { logger } from "../utils/logger";
 
-export const purgeMessages = async (guild: Guild): Promise<void> => {
+export const purgeMessages = async (guild: Guild): Promise<number> => {
+    let totalDeleted = 0;
+
     for (const rule of purgeConfig.rules) {
         for (const channelId of rule.channelIds) {
             const channel = guild.channels.cache.get(channelId) as TextChannel;
@@ -20,16 +22,26 @@ export const purgeMessages = async (guild: Guild): Promise<void> => {
                 });
 
                 if (messagesToDelete.size > 0) {
-                    await channel.bulkDelete(messagesToDelete);
+                    const deletedMessages = await channel.bulkDelete(messagesToDelete);
+                    const deletedCount = deletedMessages.size;
+                    totalDeleted += deletedCount;
                     logger.info(
-                        `Deleted ${messagesToDelete.size} messages from ${channel.name}`,
+                        `Deleted ${deletedCount} messages from ${channel.name}`,
                     );
+
+                    if (deletedCount === 0) {
+                        logger.warn("No messages were deleted.");
+                    } else if (deletedCount === 1) {
+                        logger.info("One message was deleted.");
+                    }
                 }
             } catch (error) {
                 logger.error(`Error purging messages in ${channel.name}:`, error);
             }
         }
     }
+
+    return totalDeleted;
 };
 
 const filterMessages = (message: Message, rule: any): boolean => {
