@@ -33,3 +33,9 @@ const startBot = async (): Promise<void> => {
 };
 
 startBot();
+
+process.on("SIGINT", async () => {
+    logger.info("Shutting down bot...");
+    await client.destroy(); // Disconnect the bot
+    process.exit(0); // Exit the process
+});
