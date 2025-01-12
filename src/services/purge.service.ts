@@ -4,6 +4,12 @@ import { purgeConfig } from "../config/purge.config";
 import { isWithinMessageAge } from "../utils/discord";
 import { logger } from "../utils/logger";
 
+/**
+ * Purges messages based on configured criteria.
+ * 
+ * @param guild - The Discord guild to purge messages from.
+ * @returns {number} The number of messages deleted.
+ */
 export const purgeMessages = async (guild: Guild): Promise<number> => {
     let totalDeleted = 0;
 
@@ -44,6 +50,13 @@ export const purgeMessages = async (guild: Guild): Promise<number> => {
     return totalDeleted;
 };
 
+/**
+ * Filters messages based on the configured criteria.
+ * 
+ * @param message - The Discord message to check.
+ * @param rule - The rule to apply.
+ * @returns {boolean} True if the message should be deleted, false otherwise.
+ */
 const filterMessages = (message: Message, rule: any): boolean => {
     if (!message.member) return false; // Skip messages from users not in the guild
 
@@ -65,6 +78,11 @@ const filterMessages = (message: Message, rule: any): boolean => {
     );
 };
 
+/**
+ * Starts the message purge timers based on the configured rules.
+ * 
+ * @param client - The Discord client instance.
+ */
 export const startPurgeTimers = (client: any): void => {
     for (const rule of purgeConfig.rules) {
         const interval = rule.checkInterval || purgeConfig.defaultCheckInterval;
