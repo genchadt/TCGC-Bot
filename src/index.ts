@@ -35,7 +35,23 @@ const startBot = async (): Promise<void> => {
 startBot();
 
 process.on("SIGINT", async () => {
-    logger.info("Shutting down bot...");
-    await client.destroy(); // Disconnect the bot
-    process.exit(0); // Exit the process
+    try {
+        logger.info("Shutting down bot...");
+        await client.destroy();
+        process.exit(0);
+    } catch (error) {
+        logger.error("Error during shutdown:", error);
+        process.exit(1);
+    }
+});
+
+process.on("SIGTERM", async () => {
+    try {
+        logger.info("Shutting down bot...");
+        await client.destroy();
+        process.exit(0);
+    } catch (error) {
+        logger.error("Error during shutdown:", error);
+        process.exit(1);
+    }
 });
