@@ -1,0 +1,46 @@
+{
+  "name": "tcgc-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "compilerOptions": {
+    "rootDir": "./src",
+    "module": "commonjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/genchadt/TCGC-Bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/genchadt/TCGC-Bot/issues"
+  },
+  "homepage": "https://github.com/genchadt/TCGC-Bot#readme",
+  "description": "",
+  "dependencies": {
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7",
+    "js-yaml": "^4.1.0",
+    "pg": "^8.13.1",
+    "tcgc-bot": "file:",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.10.5",
+    "@types/pg": "^8.11.10",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
