@@ -6,6 +6,11 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
 
+/**
+ * Connects to the PostgreSQL database.
+ * 
+ * @returns {Promise<void>} A promise that resolves when the connection is established.
+ */
 export const connectToDatabase = async (): Promise<void> => {
     try {
         await pool.query("SELECT NOW()"); // Test connection
@@ -16,6 +21,13 @@ export const connectToDatabase = async (): Promise<void> => {
     }
 };
 
+/**
+ * Executes a SQL query.
+ * 
+ * @param text - The SQL query to execute.
+ * @param params - The query parameters.
+ * @returns {Promise<any>} The query result.
+ */
 export const query = async (text: string, params?: any[]) => {
     const start = Date.now();
     const res = await pool.query(text, params);
